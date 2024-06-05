@@ -25,12 +25,12 @@ export class CarModelChoiceComponent implements OnInit {
   public firstStepCompleted: Signal<boolean> = this.choiceDataService.firstStepCompleted();
 
   public colorList: Signal<ColorCar[]> = computed(() =>
-    this.carModelList().find((model) => model.code === this.choiceDataService.getCarModel()()?.code)?.colors ?? []
+    this.carModelList().find((model) => model.code === this.form.controls.model.value)?.colors ?? []
   );
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      model: [this.carModelSelected()?.code ?? this.colorList()?.at(0)?.code],
+      model: [this.carModelSelected()?.code ?? ''],
       color: [this.carModelSelected()?.color.code ?? ''],
     }) as FormGroup;
     
@@ -38,6 +38,10 @@ export class CarModelChoiceComponent implements OnInit {
       const modelSelected = this.carModelList().find((carModel) => carModel.code === formValue.model);
       const colorSelected = modelSelected?.colors.find((color) => color.code === formValue.color);
       this.choiceDataService.saveCarModel({ ...modelSelected, color: colorSelected ?? {} } as CarModelChoice);
+    });
+
+    this.form.controls.model.valueChanges.subscribe(() => {
+      this.form.controls.color.setValue(this.colorList().at(0)?.code ?? '');
     });
   }
 

@@ -2,7 +2,7 @@
 <form [formGroup]="form">
   <div>
     <label for="modelSelect">Model :</label>
-    <select id="modelSelect" name="modelSelect" formControlName="model" type="number">
+    <select id="modelSelect" name="modelSelect" formControlName="model">
       <option value="">Choose..</option>
       <option *ngFor="let model of carModelList()" [value]="model.code">
         {{ model.description }}
