@@ -4,10 +4,10 @@
       <a class="navbartext" id="step1" routerLink="/model" routerLinkActive="active-link">Step 1</a>
     </li>
     <li class="navbarelement" [ngClass]="{'cursornotallowed': !firstStepCompleted()}">
-      <a class="navbartext" [ngClass]="{'disabled': !firstStepCompleted()}" id="step2" routerLink="/option" disabled routerLinkActive="active-link">Step 2</a>
+      <a class="navbartext" id="step2" [ngClass]="{'disabled': !firstStepCompleted()}" routerLink="/option" disabled routerLinkActive="active-link">Step 2</a>
     </li>
     <li class="navbarelement" [ngClass]="{'cursornotallowed': !secondStepCompleted()}">
-      <a class="navbartext" [ngClass]="{'disabled': !secondStepCompleted()}" id="step3" routerLink="/total" routerLinkActive="active-link">Step 3</a>
+      <a class="navbartext" id="step3" [ngClass]="{'disabled': !secondStepCompleted()}" routerLink="/total" routerLinkActive="active-link">Step 3</a>
     </li>
   </ul>
 </nav>

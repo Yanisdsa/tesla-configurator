@@ -1,14 +1,14 @@
 <h1>Step 1: Summary</h1>
-<h2>Your Tesla {{ carModel()?.description }}</h2>
+<h2>Your Tesla {{ carModel().description }}</h2>
 
 <div style="display: grid; grid-template-columns: repeat(2, 1fr);">
-    <p style="font-weight: bold; margin-right: 5%">{{ carOption()?.config?.description }}</p>
-    <p>{{ carOption()?.config?.price | currency: 'USD' }}</p>
+    <p style="font-weight: bold; margin-right: 5%">{{ carOption().config.description }}</p>
+    <p>{{ carOption().config.price | currency: 'USD' }}</p>
 
-    <p style="grid-column: 1 / span 2;">Range: {{ carOption()?.config?.range }} miles - Max speed {{ carOption()?.config?.speed }}</p>
+    <p style="grid-column: 1 / span 2;">Range: {{ carOption().config.range }} miles - Max speed {{ carOption().config.speed }}</p>
 
-    <p style="font-weight: bold; margin-right: 5%">{{ carModel()?.color?.description }}</p>
-    <p>{{ carModel()?.color?.price | currency: 'USD' }}</p>
+    <p style="font-weight: bold; margin-right: 5%">{{ carModel().color.description }}</p>
+    <p>{{ carModel().color.price | currency: 'USD' }}</p>
 
     <ng-container *ngIf="carOption()?.towHitch">
         <p style="font-weight: bold; margin-right: 5%">Tow Hitch package</p>

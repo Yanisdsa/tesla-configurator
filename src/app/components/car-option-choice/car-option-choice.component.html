@@ -10,8 +10,8 @@
     </select>
   </div>
   <p *ngIf="isCompleted()">
-    {{ 'Ranger: ' + configSelected()?.range + ' miles - Max speed: ' + configSelected()?.speed }} - Cost:
-    {{ configSelected()?.price | currency: 'USD' }}
+    {{ 'Ranger: ' + configSelected().range + ' miles - Max speed: ' + configSelected().speed }} - Cost:
+    {{ configSelected().price | currency: 'USD' }}
   </p>
   <div *ngIf="options().towHitch">
     <label for="includeTow">Tow hitch?</label>
