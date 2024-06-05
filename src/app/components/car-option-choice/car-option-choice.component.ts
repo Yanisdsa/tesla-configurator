@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, computed, inject } from '@angular/core';
+import { Component, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AppConstants, CarModelChoice, CarOptionChoice, ChoiceDataService, ConfigCar, OptionCar, TeslaDatabaseService } from '../../core';
@@ -17,11 +17,12 @@ export class CarOptionChoiceComponent implements OnInit {
   private readonly choiceDataService: ChoiceDataService = inject(ChoiceDataService);
   private readonly fb: FormBuilder = inject(FormBuilder);
   public form!: FormGroup<CarOptionFormGroup>;
+
   private carModel: Signal<CarModelChoice> = this.choiceDataService.getCarModel();
   private carOption: Signal<CarOptionChoice> = this.choiceDataService.getCarOption();
   public options: Signal<ConfigCar> = this.teslaDatabase.getOptions(this.carModel()?.code ?? '');
   public configList: Signal<Array<OptionCar>> = computed(() => this.options().configs);
-  public configSelected: Signal<OptionCar> = computed(() => this.carOption()?.config);
+  public configSelected: Signal<OptionCar> = computed(() => this.carOption().config);
   public isCompleted: Signal<boolean> = this.choiceDataService.secondStepCompleted();
 
   ngOnInit(): void {
