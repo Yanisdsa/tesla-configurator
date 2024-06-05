@@ -48,4 +48,8 @@ export class ChoiceDataService {
   public getCarOption(): Signal<CarOptionChoice> {
     return this.carOptionChoice;
   }
+
+  public resetCarModel(): void{
+    this.carModelChoice.set(this.initialcarModelChoiceValue);
+  }
 }

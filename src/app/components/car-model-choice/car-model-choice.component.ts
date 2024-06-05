@@ -36,8 +36,13 @@ export class CarModelChoiceComponent implements OnInit {
     
     this.form.valueChanges.subscribe((formValue) => {
       const modelSelected = this.carModelList().find((carModel) => carModel.code === formValue.model);
-      const colorSelected = modelSelected?.colors.find((color) => color.code === formValue.color);
-      this.choiceDataService.saveCarModel({ ...modelSelected, color: colorSelected ?? {} } as CarModelChoice);
+
+      if(modelSelected){
+        const colorSelected = modelSelected?.colors.find((color) => color.code === formValue.color);
+        this.choiceDataService.saveCarModel({ ...modelSelected, color: colorSelected ?? {} } as CarModelChoice);
+      }else{
+        this.choiceDataService.resetCarModel();
+      }
     });
 
     this.form.controls.model.valueChanges.subscribe(() => {
