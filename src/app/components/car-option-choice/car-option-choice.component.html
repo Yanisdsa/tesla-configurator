@@ -1,0 +1,25 @@
+<h1>Step 2: Select your config and options</h1>
+<form [formGroup]="form" style="display: flex; flex-direction: column">
+  <div>
+    <label for="configSelect">Config :</label>
+    <select id="configSelect" formControlName="config" name="configSelect">
+      <option [value]="0">Choose..</option>
+      <option *ngFor="let config of configList()" [value]="config.id">
+        {{ config.description }}
+      </option>
+    </select>
+  </div>
+  <p *ngIf="isCompleted()">
+    {{ 'Ranger: ' + configSelected()?.range + ' miles - Max speed: ' + configSelected()?.speed }} - Cost:
+    {{ configSelected()?.price | currency: 'USD' }}
+  </p>
+  <div *ngIf="options().towHitch">
+    <label for="includeTow">Tow hitch?</label>
+    <input type="checkbox" id="includeTow" name="includeTow" formControlName="towHitch" />
+  </div>
+  <div *ngIf="options().yoke">
+    <label for="includeYoke">Yoke steering wheel?</label>
+    <input type="checkbox" id="includeYoke" name="includeYoke" formControlName="yoke" />
+  </div>
+  <img [src]="imagePath" />
+</form>
