@@ -10,17 +10,19 @@ export class ChoiceDataService {
   private carModelChoice: WritableSignal<CarModelChoice> = signal<CarModelChoice>(this.initialcarModelChoiceValue);
   private carOptionChoice: WritableSignal<CarOptionChoice> = signal<CarOptionChoice>(this.initialcarOptionChoiceValue);
 
-  private modelAndColorAreSelected: Signal<boolean> = computed(() => this.carModelChoice()?.code !== '' && ((this.carModelChoice()?.color.code ?? '') !== ''));
+  private modelAndColorAreSelected: Signal<boolean> = computed(
+    () => this.carModelChoice()?.code !== '' && (this.carModelChoice()?.color.code ?? '') !== ''
+  );
   private configIsSelected: Signal<boolean> = computed(() => (this.carOptionChoice()?.config.id ?? 0) !== 0);
 
-  public totalPrice: Signal<number> = computed(() =>{
+  public totalPrice: Signal<number> = computed(() => {
     let total = (this.carModelChoice().color.price ?? 0) + (this.carOptionChoice().config.price ?? 0);
 
-    if(this.carOptionChoice().towHitch) total += 1000;
-    if(this.carOptionChoice().yoke) total += 1000;
-    
+    if (this.carOptionChoice().towHitch) total += 1000;
+    if (this.carOptionChoice().yoke) total += 1000;
+
     return total;
-  })
+  });
 
   public firstStepCompleted(): Signal<boolean> {
     return this.modelAndColorAreSelected;
@@ -30,8 +32,8 @@ export class ChoiceDataService {
     return this.configIsSelected;
   }
 
-  public saveCarModel(data: CarModelChoice): void {    
-    if((this.carModelChoice().code !== data.code) && (this.carOptionChoice() !== this.initialcarOptionChoiceValue)){
+  public saveCarModel(data: CarModelChoice): void {
+    if (this.carModelChoice().code !== data.code && this.carOptionChoice() !== this.initialcarOptionChoiceValue) {
       this.saveCarOption(this.initialcarOptionChoiceValue);
     }
     this.carModelChoice.set(data);
@@ -49,7 +51,7 @@ export class ChoiceDataService {
     return this.carOptionChoice;
   }
 
-  public resetCarModel(): void{
+  public resetCarModel(): void {
     this.carModelChoice.set(this.initialcarModelChoiceValue);
   }
 }

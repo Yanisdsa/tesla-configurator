@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { AppConstants, CarModelChoice, ChoiceDataService, ColorCar, ModelCar, TeslaDatabaseService } from '../../core';
 import { CarModelFormGroup } from './interfaces';
 
-
 @Component({
   selector: 'app-car-model-choice',
   standalone: true,
@@ -18,14 +17,14 @@ export class CarModelChoiceComponent implements OnInit {
   private readonly fb: FormBuilder = inject(FormBuilder);
 
   public form!: FormGroup<CarModelFormGroup>;
-  public isModelChoose : boolean = false;
+  public isModelChoose: boolean = false;
   public carModelList: Signal<ModelCar[]> = this.teslaDatabase.getModels();
   private carModelSelected: Signal<CarModelChoice> = this.choiceDataService.getCarModel();
   public carModelIsSelected: Signal<boolean> = computed(() => this.carModelSelected()?.code !== '');
   public firstStepCompleted: Signal<boolean> = this.choiceDataService.firstStepCompleted();
 
-  public colorList: Signal<ColorCar[]> = computed(() =>
-    this.carModelList().find((model) => model.code === this.form.controls.model.value)?.colors ?? []
+  public colorList: Signal<ColorCar[]> = computed(
+    () => this.carModelList().find((model) => model.code === this.form.controls.model.value)?.colors ?? []
   );
 
   ngOnInit(): void {
@@ -33,14 +32,14 @@ export class CarModelChoiceComponent implements OnInit {
       model: [this.carModelSelected()?.code ?? ''],
       color: [this.carModelSelected()?.color.code ?? ''],
     }) as FormGroup;
-    
+
     this.form.valueChanges.subscribe((formValue) => {
       const modelSelected = this.carModelList().find((carModel) => carModel.code === formValue.model);
 
-      if(modelSelected){
+      if (modelSelected) {
         const colorSelected = modelSelected?.colors.find((color) => color.code === formValue.color);
         this.choiceDataService.saveCarModel({ ...modelSelected, color: colorSelected ?? {} } as CarModelChoice);
-      }else{
+      } else {
         this.choiceDataService.resetCarModel();
       }
     });

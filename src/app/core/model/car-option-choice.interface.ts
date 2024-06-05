@@ -1,4 +1,4 @@
-import { OptionCar } from "./option-car.interface";
+import { OptionCar } from './option-car.interface';
 
 export interface CarOptionChoice {
   config: OptionCar;

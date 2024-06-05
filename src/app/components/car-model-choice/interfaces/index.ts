@@ -1,1 +1,1 @@
-export * from './car-model-form.interface'
+export * from './car-model-form.interface';

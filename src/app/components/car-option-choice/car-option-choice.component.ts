@@ -1,9 +1,16 @@
 import { Component, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AppConstants, CarModelChoice, CarOptionChoice, ChoiceDataService, ConfigCar, OptionCar, TeslaDatabaseService } from '../../core';
+import {
+  AppConstants,
+  CarModelChoice,
+  CarOptionChoice,
+  ChoiceDataService,
+  ConfigCar,
+  OptionCar,
+  TeslaDatabaseService,
+} from '../../core';
 import { CarOptionFormGroup } from './interfaces';
-
 
 @Component({
   selector: 'app-car-option-choice',
@@ -34,7 +41,7 @@ export class CarOptionChoiceComponent implements OnInit {
 
     this.form.valueChanges.subscribe((formValue) => {
       const configSelected = this.configList().find((config) => config.id === Number(formValue.config));
-      this.choiceDataService.saveCarOption({ ...formValue, config: configSelected ?? {}} as CarOptionChoice);
+      this.choiceDataService.saveCarOption({ ...formValue, config: configSelected ?? {} } as CarOptionChoice);
     });
   }
 
