@@ -1,0 +1,35 @@
+.navbar {
+  flex-direction: row;
+  border-style: solid;
+  border-color: white;
+}
+
+.navbarlist {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.navbartext {
+  color: white;
+}
+
+.navbarelement {
+  margin-inline: 5%;
+}
+
+.active-link {
+  background-color: gray;
+}
+
+a.disabled {
+  pointer-events: none;
+  color: grey;
+}
+
+.cursornotallowed{
+  cursor: not-allowed; 
+}
