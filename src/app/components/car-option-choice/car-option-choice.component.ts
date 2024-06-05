@@ -1,7 +1,7 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, OnInit, Signal, computed, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AppConstants, CarOptionChoice, ChoiceDataService, TeslaDatabaseService } from '../../core';
+import { AppConstants, CarModelChoice, CarOptionChoice, ChoiceDataService, ConfigCar, OptionCar, TeslaDatabaseService } from '../../core';
 import { CarOptionFormGroup } from './interfaces';
 
 
@@ -13,16 +13,16 @@ import { CarOptionFormGroup } from './interfaces';
   styleUrl: './car-option-choice.component.scss',
 })
 export class CarOptionChoiceComponent implements OnInit {
-  private readonly teslaDatabase = inject(TeslaDatabaseService);
-  private readonly choiceDataService = inject(ChoiceDataService);
-  private readonly fb = inject(FormBuilder);
+  private readonly teslaDatabase: TeslaDatabaseService = inject(TeslaDatabaseService);
+  private readonly choiceDataService: ChoiceDataService = inject(ChoiceDataService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
   public form!: FormGroup<CarOptionFormGroup>;
-  private carModel = this.choiceDataService.getCarModel();
-  private carOption = this.choiceDataService.getCarOption();
-  public options = this.teslaDatabase.getOptions(this.carModel()?.code ?? '');
-  public configList = computed(() => this.options().configs);
-  public configSelected = computed(() => this.carOption()?.config);
-  public isCompleted = this.choiceDataService.secondStepCompleted();
+  private carModel: Signal<CarModelChoice> = this.choiceDataService.getCarModel();
+  private carOption: Signal<CarOptionChoice> = this.choiceDataService.getCarOption();
+  public options: Signal<ConfigCar> = this.teslaDatabase.getOptions(this.carModel()?.code ?? '');
+  public configList: Signal<Array<OptionCar>> = computed(() => this.options().configs);
+  public configSelected: Signal<OptionCar> = computed(() => this.carOption()?.config);
+  public isCompleted: Signal<boolean> = this.choiceDataService.secondStepCompleted();
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -38,7 +38,7 @@ export class CarOptionChoiceComponent implements OnInit {
   }
 
   get imagePath(): string {
-    const carModel = this.choiceDataService.getCarModel();
+    const carModel: Signal<CarModelChoice> = this.choiceDataService.getCarModel();
     return AppConstants.IMAGES_URL + `${carModel()?.code}/${carModel()?.color.code}.jpg`;
   }
 }

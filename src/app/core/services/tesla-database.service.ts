@@ -7,7 +7,7 @@ import { ConfigCar, ModelCar } from '../model';
   providedIn: 'root',
 })
 export class TeslaDatabaseService {
-  private http = inject(HttpClient);
+  private readonly http: HttpClient = inject(HttpClient);
 
   public getModels(): Signal<ModelCar[]> {
     const modelCarObs$ = this.http.get<ModelCar[]>('/models');

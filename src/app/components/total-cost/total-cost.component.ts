@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, Signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppConstants, ChoiceDataService } from '../../core';
+import { AppConstants, CarModelChoice, CarOptionChoice, ChoiceDataService } from '../../core';
 
 @Component({
   selector: 'app-total-cost',
@@ -10,13 +10,13 @@ import { AppConstants, ChoiceDataService } from '../../core';
   styleUrl: './total-cost.component.scss',
 })
 export class TotalCostComponent {
-  private choiceDataService = inject(ChoiceDataService);
-  public carModel = this.choiceDataService.getCarModel();
-  public carOption = this.choiceDataService.getCarOption();
-  public totalPrice = this.choiceDataService.totalPrice;
+  private readonly choiceDataService: ChoiceDataService = inject(ChoiceDataService);
+  public carModel: Signal<CarModelChoice> = this.choiceDataService.getCarModel();
+  public carOption: Signal<CarOptionChoice> = this.choiceDataService.getCarOption();
+  public totalPrice: Signal<number> = this.choiceDataService.totalPrice;
 
   get imagePath(): string {
-    const carModel = this.choiceDataService.getCarModel();
+    const carModel: Signal<CarModelChoice> = this.choiceDataService.getCarModel();
     return AppConstants.IMAGES_URL + `${carModel()?.code}/${carModel()?.color.code}.jpg`;
   }
 }

@@ -1,17 +1,17 @@
-import { Injectable, Signal, computed, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { CarModelChoice, CarOptionChoice } from '../model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChoiceDataService {
-  private carModelChoice = signal<CarModelChoice>({ code: '', description: '', color: {} });
-  private carOptionChoice = signal<CarOptionChoice>({ config: {}, towHitch: false, yoke: false });
+  private carModelChoice: WritableSignal<CarModelChoice> = signal<CarModelChoice>({ code: '', description: '', color: {} });
+  private carOptionChoice: WritableSignal<CarOptionChoice> = signal<CarOptionChoice>({ config: {}, towHitch: false, yoke: false });
 
-  private modelAndColorAreSelected = computed(() => this.carModelChoice()?.code !== '' && ((this.carModelChoice()?.color.code ?? '') !== ''));
-  private configIsSelected = computed(() => (this.carOptionChoice()?.config.id ?? 0) !== 0);
+  private modelAndColorAreSelected: Signal<boolean> = computed(() => this.carModelChoice()?.code !== '' && ((this.carModelChoice()?.color.code ?? '') !== ''));
+  private configIsSelected: Signal<boolean> = computed(() => (this.carOptionChoice()?.config.id ?? 0) !== 0);
 
-  public totalPrice = computed(() =>{
+  public totalPrice: Signal<number> = computed(() =>{
     let total = (this.carModelChoice().color.price ?? 0) + (this.carOptionChoice().config.price ?? 0);
 
     if(this.carOptionChoice().towHitch) total += 1000;
@@ -36,11 +36,11 @@ export class ChoiceDataService {
     this.carOptionChoice.set(data);
   }
 
-  public getCarModel(): Signal<CarModelChoice | null> {
+  public getCarModel(): Signal<CarModelChoice> {
     return this.carModelChoice;
   }
 
-  public getCarOption(): Signal<CarOptionChoice | null> {
+  public getCarOption(): Signal<CarOptionChoice> {
     return this.carOptionChoice;
   }
 }
