@@ -5,8 +5,10 @@ import { CarModelChoice, CarOptionChoice } from '../model';
   providedIn: 'root',
 })
 export class ChoiceDataService {
-  private carModelChoice: WritableSignal<CarModelChoice> = signal<CarModelChoice>({ code: '', description: '', color: {} });
-  private carOptionChoice: WritableSignal<CarOptionChoice> = signal<CarOptionChoice>({ config: {}, towHitch: false, yoke: false });
+  private initialcarModelChoiceValue: CarModelChoice = { code: '', description: '', color: {} };
+  private initialcarOptionChoiceValue: CarOptionChoice = { config: {}, towHitch: false, yoke: false };
+  private carModelChoice: WritableSignal<CarModelChoice> = signal<CarModelChoice>(this.initialcarModelChoiceValue);
+  private carOptionChoice: WritableSignal<CarOptionChoice> = signal<CarOptionChoice>(this.initialcarOptionChoiceValue);
 
   private modelAndColorAreSelected: Signal<boolean> = computed(() => this.carModelChoice()?.code !== '' && ((this.carModelChoice()?.color.code ?? '') !== ''));
   private configIsSelected: Signal<boolean> = computed(() => (this.carOptionChoice()?.config.id ?? 0) !== 0);
@@ -28,7 +30,10 @@ export class ChoiceDataService {
     return this.configIsSelected;
   }
 
-  public saveCarModel(data: CarModelChoice): void {
+  public saveCarModel(data: CarModelChoice): void {    
+    if((this.carModelChoice().code !== data.code) && (this.carOptionChoice() !== this.initialcarOptionChoiceValue)){
+      this.saveCarOption(this.initialcarOptionChoiceValue);
+    }
     this.carModelChoice.set(data);
   }
 
